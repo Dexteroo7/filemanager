@@ -12,7 +12,8 @@ import android.net.Uri;
 import android.os.Environment;
 
 /**
- * Provides the search core, used by every search subsystem that provides results.
+ * Provides the search core, used by every search subsystem that provides
+ * results.
  * 
  * @author George Venios
  * 
@@ -26,10 +27,10 @@ public class SearchCore {
 
 	private int mResultCount = 0;
 	private int mMaxResults = -1;
-	
+
 	private long mMaxNanos = -1;
 	private long mStart;
-	
+
 	public SearchCore(Context context) {
 		mContext = context;
 	}
@@ -37,7 +38,8 @@ public class SearchCore {
 	private FilenameFilter filter = new FilenameFilter() {
 		@Override
 		public boolean accept(File dir, String filename) {
-			return mQuery == null ? false : filename.toLowerCase().contains(mQuery.toLowerCase());
+			return mQuery == null ? false : filename.toLowerCase().contains(
+					mQuery.toLowerCase());
 		}
 	};
 
@@ -60,7 +62,8 @@ public class SearchCore {
 	}
 
 	/**
-	 * Set the content URI, of which the results are. Used for operations on the correct search content providers.
+	 * Set the content URI, of which the results are. Used for operations on the
+	 * correct search content providers.
 	 * 
 	 * @param URI
 	 *            The URI.
@@ -78,12 +81,15 @@ public class SearchCore {
 	public void setMaxResults(int i) {
 		mMaxResults = i;
 	}
-	
+
 	/**
-	 * Call this to start the search stopwatch. First call of this should be right before the call to {@link #search(File)}.
-	 * @param maxNanos The search duration in nanos.
+	 * Call this to start the search stopwatch. First call of this should be
+	 * right before the call to {@link #search(File)}.
+	 * 
+	 * @param maxNanos
+	 *            The search duration in nanos.
 	 */
-	public void startClock(long maxNanos){
+	public void startClock(long maxNanos) {
 		mMaxNanos = maxNanos;
 		mStart = System.nanoTime();
 	}
@@ -120,31 +126,37 @@ public class SearchCore {
 	}
 
 	/**
-	 * Core search function. Recursively searches files from root of external storage to the leaves. Prioritizes {@link #root}'s subtree.
+	 * Core search function. Recursively searches files from root of external
+	 * storage to the leaves. Prioritizes {@link #root}'s subtree.
 	 * 
 	 * @param dir
-	 *            The starting dir for the search. Callers outside of this class are highly encouraged to use the same as {@link #root}.
+	 *            The starting dir for the search. Callers outside of this class
+	 *            are highly encouraged to use the same as {@link #root}.
 	 */
 	public void search(File dir) {
 		// Results in root pass
 		for (File f : dir.listFiles(filter)) {
 			insertResult(f);
-			
+
 			// Break search on result count and search time conditions.
-			if ((mMaxResults > 0 && mResultCount >= mMaxResults) || (mMaxNanos > 0 && System.nanoTime()-mStart > mMaxNanos)) {
+			if ((mMaxResults > 0 && mResultCount >= mMaxResults)
+					|| (mMaxNanos > 0 && System.nanoTime() - mStart > mMaxNanos)) {
 				return;
 			}
 		}
 
 		// Recursion pass
 		for (File f : dir.listFiles()) {
-			// Prevent us from re-searching the root directory, or trying to search invalid Files.
+			// Prevent us from re-searching the root directory, or trying to
+			// search invalid Files.
 			if (f.isDirectory() && f.canRead() && !isChildOf(f, root))
 				search(f);
 		}
 
-		// If we're on the parent of the recursion, and we're done searching, start searching the rest of the FS.
-		if (dir.equals(root) && !root.equals(Environment.getExternalStorageDirectory())) {
+		// If we're on the parent of the recursion, and we're done searching,
+		// start searching the rest of the FS.
+		if (dir.equals(root)
+				&& !root.equals(Environment.getExternalStorageDirectory())) {
 			search(Environment.getExternalStorageDirectory());
 		}
 	}

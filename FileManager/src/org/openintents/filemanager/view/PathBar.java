@@ -25,20 +25,27 @@ import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 /**
- * Provides a self contained way to represent the current path and provides a handy way of navigating. </br></br>
+ * Provides a self contained way to represent the current path and provides a
+ * handy way of navigating. </br></br>
  * 
- * <b>Note 1:</b> If you need to allow directory navigation outside of this class (e.g. when the user clicks on a folder from a {@link ListView}), use {@link #cd(File)} or {@link #cd(String)}. This is a requirement for the views of this class to
- * properly refresh themselves. <i>You will get notified through the usual {@link OnDirectoryChangedListener}. </i></br>
+ * <b>Note 1:</b> If you need to allow directory navigation outside of this
+ * class (e.g. when the user clicks on a folder from a {@link ListView}), use
+ * {@link #cd(File)} or {@link #cd(String)}. This is a requirement for the views
+ * of this class to properly refresh themselves. <i>You will get notified
+ * through the usual {@link OnDirectoryChangedListener}. </i></br>
  * 
- * <b>Note 2:</b> To switch between {@link Mode Modes} use the {@link #switchToManualInput()} and {@link #switchToStandardInput()} methods!
+ * <b>Note 2:</b> To switch between {@link Mode Modes} use the
+ * {@link #switchToManualInput()} and {@link #switchToStandardInput()} methods!
  * 
  * @author George Venios
  */
 public class PathBar extends ViewFlipper {
 	private String TAG = this.getClass().getName();
-	
+
 	/**
-	 * The available Modes of this PathBar. </br> See {@link PathBar#switchToManualInput() switchToManualInput()} and {@link PathBar#switchToStandardInput() switchToStandardInput()}.
+	 * The available Modes of this PathBar. </br> See
+	 * {@link PathBar#switchToManualInput() switchToManualInput()} and
+	 * {@link PathBar#switchToStandardInput() switchToStandardInput()}.
 	 */
 	public enum Mode {
 		/**
@@ -65,7 +72,7 @@ public class PathBar extends ViewFlipper {
 	private EditText mPathEditText = null;
 	/** The ImageButton to confirm the manually entered path. */
 	private ImageButton mGoButton = null;
-	
+
 	private OnDirectoryChangedListener mDirectoryChangedListener = new OnDirectoryChangedListener() {
 		@Override
 		public void directoryChanged(File newCurrentDir) {
@@ -91,7 +98,8 @@ public class PathBar extends ViewFlipper {
 
 		// RelativeLayout1
 		RelativeLayout standardModeLayout = new RelativeLayout(getContext());
-		{ // I use a block here so that layoutParams can be used as a variable name further down.
+		{ // I use a block here so that layoutParams can be used as a variable
+			// name further down.
 			android.widget.ViewFlipper.LayoutParams layoutParams = new android.widget.ViewFlipper.LayoutParams(
 					LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 			standardModeLayout.setLayoutParams(layoutParams);
@@ -99,22 +107,27 @@ public class PathBar extends ViewFlipper {
 			this.addView(standardModeLayout);
 		}
 
-		// ImageButton -- GONE. Kept this code in case we need to use an right-aligned button in the future.
+		// ImageButton -- GONE. Kept this code in case we need to use an
+		// right-aligned button in the future.
 		mSwitchToManualModeButton = new ImageButton(getContext());
 		{
-			android.widget.RelativeLayout.LayoutParams layoutParams = new android.widget.RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
+			android.widget.RelativeLayout.LayoutParams layoutParams = new android.widget.RelativeLayout.LayoutParams(
+					LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
 			layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
 
 			mSwitchToManualModeButton.setLayoutParams(layoutParams);
 			mSwitchToManualModeButton.setId(10);
-			mSwitchToManualModeButton.setBackgroundDrawable(getItemBackground());
-			mSwitchToManualModeButton.setImageResource(R.drawable.ic_navbar_edit);
+			mSwitchToManualModeButton
+					.setBackgroundDrawable(getItemBackground());
+			mSwitchToManualModeButton
+					.setImageResource(R.drawable.ic_navbar_edit);
 			mSwitchToManualModeButton.setVisibility(View.GONE);
 
 			standardModeLayout.addView(mSwitchToManualModeButton);
 		}
 
-		// ImageButton -- GONE. Kept this code in case we need to use an left-aligned button in the future.
+		// ImageButton -- GONE. Kept this code in case we need to use an
+		// left-aligned button in the future.
 		ImageButton cdToRootButton = new ImageButton(getContext());
 		{
 			android.widget.RelativeLayout.LayoutParams layoutParams = new android.widget.RelativeLayout.LayoutParams(
@@ -180,7 +193,8 @@ public class PathBar extends ViewFlipper {
 		// ImageButton
 		mGoButton = new ImageButton(getContext());
 		{
-			android.widget.RelativeLayout.LayoutParams layoutParams = new android.widget.RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
+			android.widget.RelativeLayout.LayoutParams layoutParams = new android.widget.RelativeLayout.LayoutParams(
+					LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
 			layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
 
 			mGoButton.setLayoutParams(layoutParams);
@@ -211,12 +225,15 @@ public class PathBar extends ViewFlipper {
 			mPathEditText.setLayoutParams(layoutParams);
 			mPathEditText.setInputType(InputType.TYPE_TEXT_VARIATION_URI);
 			mPathEditText.setImeOptions(EditorInfo.IME_ACTION_GO);
-			mPathEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+			mPathEditText
+					.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 						@Override
 						public boolean onEditorAction(TextView v, int actionId,
 								KeyEvent event) {
 							if (actionId == EditorInfo.IME_ACTION_GO
-									|| (event.getAction() == KeyEvent.ACTION_DOWN && (event.getKeyCode() == KeyEvent.KEYCODE_DPAD_CENTER || event.getKeyCode() == KeyEvent.KEYCODE_ENTER))) {
+									|| (event.getAction() == KeyEvent.ACTION_DOWN && (event
+											.getKeyCode() == KeyEvent.KEYCODE_DPAD_CENTER || event
+											.getKeyCode() == KeyEvent.KEYCODE_ENTER))) {
 								if (manualInputCd(v.getText().toString()))
 									// Since we have successfully navigated.
 									return true;
@@ -232,7 +249,8 @@ public class PathBar extends ViewFlipper {
 	}
 
 	/**
-	 * Sets the directory the parent activity showed first so that back behavior is fixed.
+	 * Sets the directory the parent activity showed first so that back behavior
+	 * is fixed.
 	 * 
 	 * @param initDir
 	 *            The directory.
@@ -269,7 +287,8 @@ public class PathBar extends ViewFlipper {
 	/**
 	 * Use instead of {@link #cd(String)} when in {@link Mode#MANUAL_INPUT}.
 	 * 
-	 * @param path The path to cd() to.
+	 * @param path
+	 *            The path to cd() to.
 	 * @return true if the cd succeeded.
 	 */
 	boolean manualInputCd(String path) {
@@ -287,22 +306,26 @@ public class PathBar extends ViewFlipper {
 	}
 
 	/**
-	 * {@code cd} to the passed file. If the file is legal input, sets it as the currently active Directory. Otherwise calls the listener to handle it, if any.
+	 * {@code cd} to the passed file. If the file is legal input, sets it as the
+	 * currently active Directory. Otherwise calls the listener to handle it, if
+	 * any.
 	 * 
-	 * @param file The file to {@code cd} to.
+	 * @param file
+	 *            The file to {@code cd} to.
 	 * @return Whether the path entered exists and can be navigated to.
 	 */
 	public boolean cd(File file) {
 		boolean res = false;
-		
+
 		if (isFileOk(file)) {
 			// Set proper current directory.
 			mCurrentDirectory = file;
-	
+
 			// Refresh button layout.
 			mPathButtons.refresh(mCurrentDirectory);
-	
-			// Reset scrolling position. http://stackoverflow.com/questions/3263259/scrollview-scrollto-not-working-saving-scrollview-position-on-rotation
+
+			// Reset scrolling position.
+			// http://stackoverflow.com/questions/3263259/scrollview-scrollto-not-working-saving-scrollview-position-on-rotation
 			mPathButtonsContainer.post(new Runnable() {
 				@Override
 				public void run() {
@@ -311,10 +334,10 @@ public class PathBar extends ViewFlipper {
 							(int) mPathButtonsContainer.getTop());
 				}
 			});
-	
+
 			// Refresh manual input field.
 			mPathEditText.setText(file.getAbsolutePath());
-			
+
 			res = true;
 		} else
 			res = false;
@@ -335,7 +358,8 @@ public class PathBar extends ViewFlipper {
 	}
 
 	/**
-	 * The same as running {@code File.listFiles()} on the currently active Directory.
+	 * The same as running {@code File.listFiles()} on the currently active
+	 * Directory.
 	 */
 	public File[] ls() {
 		return mCurrentDirectory.listFiles();
@@ -370,7 +394,9 @@ public class PathBar extends ViewFlipper {
 	}
 
 	/**
-	 * Activities containing this bar, will have to call this method when the back button is pressed to provide correct backstack redirection and mode switching.
+	 * Activities containing this bar, will have to call this method when the
+	 * back button is pressed to provide correct backstack redirection and mode
+	 * switching.
 	 * 
 	 * @return Whether this view consumed the event.
 	 */
@@ -401,7 +427,8 @@ public class PathBar extends ViewFlipper {
 
 	/**
 	 * 
-	 * @param dirPath The current directory's absolute path.
+	 * @param dirPath
+	 *            The current directory's absolute path.
 	 * @return
 	 */
 	private boolean backWillExit(String dirPath) {
@@ -425,21 +452,22 @@ public class PathBar extends ViewFlipper {
 			}
 		}
 	}
-	
+
 	@Override
 	public void setEnabled(boolean enabled) {
-		if(enabled)
+		if (enabled)
 			switchToStandardInput();
 		else
 			switchToManualInput();
 		mPathEditText.setEnabled(enabled);
 		mGoButton.setVisibility(enabled ? View.VISIBLE : View.GONE);
-		
+
 		super.setEnabled(enabled);
 	}
 
 	/**
-	 * Interface notifying users of this class when the user has chosen to navigate elsewhere.
+	 * Interface notifying users of this class when the user has chosen to
+	 * navigate elsewhere.
 	 */
 	public interface OnDirectoryChangedListener {
 		public void directoryChanged(File newCurrentDir);
@@ -448,25 +476,25 @@ public class PathBar extends ViewFlipper {
 	public PathButtonLayout getPathButtonLayout() {
 		return mPathButtons;
 	}
-	
+
 	boolean isFileOk(File file) {
 		// Check file state.
 		boolean isFileOK = true;
 		isFileOK &= file.exists();
 		isFileOK &= file.isDirectory();
 		// add more filters here..
-		
+
 		return isFileOK;
 	}
-	
-	public Drawable getItemBackground(){
-		int[] attrs = new int[] {R.attr.pathBarItemBackground};
+
+	public Drawable getItemBackground() {
+		int[] attrs = new int[] { R.attr.pathBarItemBackground };
 
 		TypedArray ta = getContext().obtainStyledAttributes(attrs);
 		Drawable d = ta.getDrawable(0);
-		
+
 		ta.recycle();
-		
+
 		return d.mutate();
 	}
 }

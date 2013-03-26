@@ -10,15 +10,16 @@ import android.widget.ListView;
 
 public class BookmarkMultiChoiceModeHelper {
 
-	public static void listView_setMultiChoiceModeListener(final ListView list, final Context context) {
+	public static void listView_setMultiChoiceModeListener(final ListView list,
+			final Context context) {
 		list.setMultiChoiceModeListener(new MultiChoiceModeListener() {
 
 			@Override
 			public boolean onPrepareActionMode(android.view.ActionMode mode,
 					Menu menu) {
-				
+
 				mode.getMenuInflater().inflate(R.menu.bookmarks, menu);
-				
+
 				return true;
 			}
 
@@ -43,7 +44,8 @@ public class BookmarkMultiChoiceModeHelper {
 			@Override
 			public void onItemCheckedStateChanged(android.view.ActionMode mode,
 					int position, long id, boolean checked) {
-				mode.setTitle(list.getCheckedItemCount() + " " + context.getResources().getString(R.string.selected));
+				mode.setTitle(list.getCheckedItemCount() + " "
+						+ context.getResources().getString(R.string.selected));
 			}
 		});
 	}

@@ -30,7 +30,7 @@ public class SearchService extends IntentService {
 		super.onCreate();
 
 		lbm = LocalBroadcastManager.getInstance(getApplicationContext());
-		
+
 		searcher = new SearchCore(this);
 		searcher.setURI(SearchResultsProvider.CONTENT_URI);
 	}
@@ -38,7 +38,8 @@ public class SearchService extends IntentService {
 	@Override
 	protected void onHandleIntent(Intent intent) {
 		// The search query
-		searcher.setQuery(intent.getStringExtra(FileManagerIntents.EXTRA_SEARCH_QUERY));
+		searcher.setQuery(intent
+				.getStringExtra(FileManagerIntents.EXTRA_SEARCH_QUERY));
 
 		// Set initial path. To be searched first!
 		String path = intent

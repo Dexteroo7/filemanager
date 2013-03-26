@@ -9,26 +9,27 @@ import android.view.inputmethod.InputMethodManager;
  */
 
 public class SoftKeyboard {
-    /* class initialization fails when this throws an exception */
-    static {
-            try {
-                    Class.forName("android.view.inputmethod.InputMethodManager");
-            } catch (Exception ex) {
-                    throw new RuntimeException(ex);
-            }
-    }
+	/* class initialization fails when this throws an exception */
+	static {
+		try {
+			Class.forName("android.view.inputmethod.InputMethodManager");
+		} catch (Exception ex) {
+			throw new RuntimeException(ex);
+		}
+	}
 
-    /* calling here forces class initialization */
-    public static void checkAvailable() {}
-    
-    private InputMethodManager inputMethodManager;
-    
-    public SoftKeyboard(Context ctx){
-    	inputMethodManager = (InputMethodManager) ctx.getSystemService(
-    			Context.INPUT_METHOD_SERVICE);
-    }
-    
-    public boolean hideSoftInputFromWindow(IBinder windowToken, int flags){
-    	return inputMethodManager.hideSoftInputFromWindow(windowToken, flags);
-    }
+	/* calling here forces class initialization */
+	public static void checkAvailable() {
+	}
+
+	private InputMethodManager inputMethodManager;
+
+	public SoftKeyboard(Context ctx) {
+		inputMethodManager = (InputMethodManager) ctx
+				.getSystemService(Context.INPUT_METHOD_SERVICE);
+	}
+
+	public boolean hideSoftInputFromWindow(IBinder windowToken, int flags) {
+		return inputMethodManager.hideSoftInputFromWindow(windowToken, flags);
+	}
 }

@@ -83,7 +83,8 @@ public abstract class FileListFragment extends ListFragment {
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.filelist, null);
 	}
 
@@ -216,13 +217,12 @@ public abstract class FileListFragment extends ListFragment {
 
 				mAdapter.notifyDataSetChanged();
 
-				
-				if (mPreviousDirectory != null){
+				if (mPreviousDirectory != null) {
 					selectInList(mPreviousDirectory);
 				} else {
 					// Reset list position.
 					if (mFiles.size() > 0)
-						getListView().setSelection(0);					
+						getListView().setSelection(0);
 				}
 				setLoading(false);
 				break;
@@ -257,12 +257,12 @@ public abstract class FileListFragment extends ListFragment {
 	 *            The path to set.
 	 */
 	public final void setPath(File dir) {
-		
-		if (dir.exists() && dir.isDirectory()){
+
+		if (dir.exists() && dir.isDirectory()) {
 			mPreviousDirectory = mCurrentDirectory;
 			mCurrentDirectory = dir;
 			mPath = dir.getAbsolutePath();
-			
+
 		}
 	}
 

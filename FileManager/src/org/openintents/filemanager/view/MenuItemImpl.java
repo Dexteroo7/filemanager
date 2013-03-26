@@ -71,7 +71,8 @@ public final class MenuItemImpl implements MenuItem {
 	private static String sSpaceShortcutLabel;
 
 	/**
-	 * Instantiates this menu item. The constructor {@link #MenuItemData(MenuBuilder, int, int, int, CharSequence, int)} is
+	 * Instantiates this menu item. The constructor
+	 * {@link #MenuItemData(MenuBuilder, int, int, int, CharSequence, int)} is
 	 * preferred due to lazy loading of the icon Drawable.
 	 * 
 	 * @param menu
@@ -87,7 +88,8 @@ public final class MenuItemImpl implements MenuItem {
 	 * @param title
 	 *            The text to display for the item.
 	 */
-	MenuItemImpl(MenuBuilder menu, int group, int id, int categoryOrder, int ordering, CharSequence title) {
+	MenuItemImpl(MenuBuilder menu, int group, int id, int categoryOrder,
+			int ordering, CharSequence title) {
 		mMenu = menu;
 		mId = id;
 		mGroup = group;
@@ -159,7 +161,8 @@ public final class MenuItemImpl implements MenuItem {
 
 	@Override
 	public MenuItem setAlphabeticShortcut(char alphaChar) {
-		if (mShortcutAlphabeticChar == alphaChar) return this;
+		if (mShortcutAlphabeticChar == alphaChar)
+			return this;
 
 		mShortcutAlphabeticChar = Character.toLowerCase(alphaChar);
 
@@ -173,7 +176,8 @@ public final class MenuItemImpl implements MenuItem {
 
 	@Override
 	public MenuItem setNumericShortcut(char numericChar) {
-		if (mShortcutNumericChar == numericChar) return this;
+		if (mShortcutNumericChar == numericChar)
+			return this;
 
 		mShortcutNumericChar = numericChar;
 
@@ -192,7 +196,8 @@ public final class MenuItemImpl implements MenuItem {
 	 * @return The active shortcut (based on QWERTY-mode of the menu).
 	 */
 	char getShortcut() {
-		return (mMenu.isQwertyMode() ? mShortcutAlphabeticChar : mShortcutNumericChar);
+		return (mMenu.isQwertyMode() ? mShortcutAlphabeticChar
+				: mShortcutNumericChar);
 	}
 
 	/**
@@ -257,7 +262,8 @@ public final class MenuItemImpl implements MenuItem {
 	public MenuItem setTitleCondensed(CharSequence title) {
 		mTitleCondensed = title;
 
-		// Could use getTitle() in the loop below, but just cache what it would do here
+		// Could use getTitle() in the loop below, but just cache what it would
+		// do here
 		if (title == null) {
 			title = mTitle;
 		}
@@ -322,7 +328,8 @@ public final class MenuItemImpl implements MenuItem {
 	@Override
 	public MenuItem setChecked(boolean checked) {
 		if ((mFlags & EXCLUSIVE) != 0) {
-			// Call the method on the Menu since it knows about the others in this
+			// Call the method on the Menu since it knows about the others in
+			// this
 			// exclusive checkable group
 			mMenu.setExclusiveItemChecked(this);
 		} else {
@@ -344,7 +351,8 @@ public final class MenuItemImpl implements MenuItem {
 	/**
 	 * Changes the visibility of the item. This method DOES NOT notify the
 	 * parent menu of a change in this item, so this should only be called from
-	 * methods that will eventually trigger this change. If unsure, use {@link #setVisible(boolean)} instead.
+	 * methods that will eventually trigger this change. If unsure, use
+	 * {@link #setVisible(boolean)} instead.
 	 * 
 	 * @param shown
 	 *            Whether to show (true) or hide (false).
@@ -358,16 +366,20 @@ public final class MenuItemImpl implements MenuItem {
 
 	@Override
 	public MenuItem setVisible(boolean shown) {
-		// Try to set the shown state to the given state. If the shown state was changed
-		// (i.e. the previous state isn't the same as given state), notify the parent menu that
+		// Try to set the shown state to the given state. If the shown state was
+		// changed
+		// (i.e. the previous state isn't the same as given state), notify the
+		// parent menu that
 		// the shown state has changed for this item
-		if (setVisibleInt(shown)) mMenu.onItemVisibleChanged(this);
+		if (setVisibleInt(shown))
+			mMenu.onItemVisibleChanged(this);
 
 		return this;
 	}
 
 	@Override
-	public MenuItem setOnMenuItemClickListener(MenuItem.OnMenuItemClickListener clickListener) {
+	public MenuItem setOnMenuItemClickListener(
+			MenuItem.OnMenuItemClickListener clickListener) {
 		return this;
 	}
 

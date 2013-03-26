@@ -39,7 +39,8 @@ public class LegacyActionContainer extends LinearLayout {
 	/**
 	 * Set the menu resource which contains the actions this view will display.
 	 * 
-	 * @param menuRes The menu resource id.
+	 * @param menuRes
+	 *            The menu resource id.
 	 */
 	public void setMenuResource(int menuRes) {
 		removeAllViews();
@@ -50,7 +51,8 @@ public class LegacyActionContainer extends LinearLayout {
 	}
 
 	/**
-	 * Add the {@link #menu} members as children in the view. Each view will have the corresponding MenuItem as its tag.
+	 * Add the {@link #menu} members as children in the view. Each view will
+	 * have the corresponding MenuItem as its tag.
 	 */
 	private void loadChildViews() {
 		ImageButton itemView = null;
@@ -71,8 +73,9 @@ public class LegacyActionContainer extends LinearLayout {
 					Toast t = Toast.makeText(getContext(),
 							((MenuItem) v.getTag()).getTitle(),
 							Toast.LENGTH_SHORT);
-					// Position the toast near the item but not on it so that the user can see it appearing.
-					t.setGravity(Gravity.TOP | Gravity.LEFT, v.getLeft()-50,
+					// Position the toast near the item but not on it so that
+					// the user can see it appearing.
+					t.setGravity(Gravity.TOP | Gravity.LEFT, v.getLeft() - 50,
 							v.getBottom() + 40);
 					t.show();
 					return true;
@@ -81,7 +84,7 @@ public class LegacyActionContainer extends LinearLayout {
 			itemView.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					if(mListener != null)
+					if (mListener != null)
 						mListener.actionSelected((MenuItem) v.getTag());
 				}
 			});
@@ -95,7 +98,7 @@ public class LegacyActionContainer extends LinearLayout {
 	public void setOnActionSelectedListener(OnActionSelectedListener listener) {
 		mListener = listener;
 	}
-	
+
 	public interface OnActionSelectedListener {
 		public void actionSelected(MenuItem item);
 	}

@@ -12,9 +12,11 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 
 /**
- * Used by the standard search Service, in order to provide results asynchronously to the SearchableActivity.
+ * Used by the standard search Service, in order to provide results
+ * asynchronously to the SearchableActivity.
+ * 
  * @author George Venios
- *
+ * 
  */
 public class SearchResultsProvider extends ContentProvider {
 	private static final int DATABASE_VERSION = 1;
@@ -43,7 +45,7 @@ public class SearchResultsProvider extends ContentProvider {
 	public boolean onCreate() {
 		dbHelper = new DatabaseHelper(getContext());
 		db = dbHelper.getWritableDatabase();
-		
+
 		return (dbHelper == null) ? false : true;
 	}
 

@@ -18,8 +18,9 @@ import android.widget.TextView;
 
 /**
  * Simple adapter for displaying search results.
+ * 
  * @author George Venios
- *
+ * 
  */
 public class SearchListAdapter extends CursorAdapter {
 	private HashMap<String, FileHolder> itemCache = new HashMap<String, FileHolder>();
@@ -30,9 +31,10 @@ public class SearchListAdapter extends CursorAdapter {
 
 	@Override
 	public void bindView(View view, Context context, Cursor cursor) {
-		String path = cursor.getString(cursor.getColumnIndex(SearchResultsProvider.COLUMN_PATH));
+		String path = cursor.getString(cursor
+				.getColumnIndex(SearchResultsProvider.COLUMN_PATH));
 		FileHolder fHolder;
-		if((fHolder = itemCache.get(path)) == null){
+		if ((fHolder = itemCache.get(path)) == null) {
 			fHolder = new FileHolder(new File(path), context);
 			itemCache.put(path, fHolder);
 		}
@@ -56,9 +58,9 @@ public class SearchListAdapter extends CursorAdapter {
 		holder.primaryInfo = (TextView) v.findViewById(R.id.primary_info);
 		holder.secondaryInfo = (TextView) v.findViewById(R.id.secondary_info);
 		v.findViewById(R.id.tertiary_info).setVisibility(View.GONE);
-		
+
 		v.setTag(holder);
-		
+
 		return v;
 	}
 }

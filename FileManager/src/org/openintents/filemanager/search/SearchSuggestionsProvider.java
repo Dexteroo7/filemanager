@@ -13,14 +13,17 @@ import android.os.Environment;
 import android.provider.BaseColumns;
 
 /**
- * Not that good, but it's a working implementation at least. We REALLY need asynchronous suggestion refreshing.
+ * Not that good, but it's a working implementation at least. We REALLY need
+ * asynchronous suggestion refreshing.
+ * 
  * @author George Venios
- *
+ * 
  */
 public class SearchSuggestionsProvider extends ContentProvider {
 	public static final String SEARCH_SUGGEST_MIMETYPE = "vnd.android.cursor.item/vnd.openintents.search_suggestion";
 	public static final String PROVIDER_NAME = "org.openintents.filemanager.search.suggest";
-	public static final Uri CONTENT_URI = Uri.parse("content://" + PROVIDER_NAME);
+	public static final Uri CONTENT_URI = Uri.parse("content://"
+			+ PROVIDER_NAME);
 
 	private static final long MAX_NANOS = 2000000;
 	private static final int MAX_SUGGESTIONS = 7;
@@ -36,7 +39,7 @@ public class SearchSuggestionsProvider extends ContentProvider {
 		int count = mSuggestions.size();
 		mSuggestions.clear();
 		getContext().getContentResolver().notifyChange(uri, null);
-		
+
 		return count;
 	}
 
@@ -47,13 +50,13 @@ public class SearchSuggestionsProvider extends ContentProvider {
 
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
-		long id = mSuggestions.size()+1;
+		long id = mSuggestions.size() + 1;
 		values.put(BaseColumns._ID, id);
 		mSuggestions.add(values);
-		
+
 		Uri _uri = ContentUris.withAppendedId(CONTENT_URI, id);
 		getContext().getContentResolver().notifyChange(_uri, null);
-		
+
 		return _uri;
 	}
 
@@ -72,18 +75,17 @@ public class SearchSuggestionsProvider extends ContentProvider {
 	public Cursor query(Uri uri, String[] projection, String selection,
 			String[] selectionArgs, String sortOrder) {
 		searcher.setQuery(uri.getLastPathSegment().toLowerCase());
-		
+
 		searcher.dropPreviousResults();
-		
+
 		searcher.startClock(MAX_NANOS);
 		searcher.search(Environment.getExternalStorageDirectory());
-		
+
 		MatrixCursor cursor = new MatrixCursor(new String[] {
 				SearchManager.SUGGEST_COLUMN_ICON_1,
 				SearchManager.SUGGEST_COLUMN_TEXT_1,
 				SearchManager.SUGGEST_COLUMN_TEXT_2,
-				SearchManager.SUGGEST_COLUMN_INTENT_DATA,
-				BaseColumns._ID});
+				SearchManager.SUGGEST_COLUMN_INTENT_DATA, BaseColumns._ID });
 		for (ContentValues val : mSuggestions)
 			cursor.newRow().add(val.get(SearchManager.SUGGEST_COLUMN_ICON_1))
 					.add(val.get(SearchManager.SUGGEST_COLUMN_TEXT_1))

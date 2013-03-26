@@ -10,39 +10,45 @@ import android.widget.Checkable;
 import android.widget.RelativeLayout;
 
 /**
- * An extension to the item_filelist layout that implements the checkable interface and displays a {@link CheckBox} to the right of the standard layout.
+ * An extension to the item_filelist layout that implements the checkable
+ * interface and displays a {@link CheckBox} to the right of the standard
+ * layout.
+ * 
  * @author George Venios
- *
+ * 
  */
-public class CheckableFileListItem extends RelativeLayout implements Checkable{
+public class CheckableFileListItem extends RelativeLayout implements Checkable {
 	private CheckBox mCheckbox;
-	
+
 	public CheckableFileListItem(Context context) {
 		super(context);
 		init();
 	}
-	
+
 	public CheckableFileListItem(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		init();
 	}
-	private void init(){
+
+	private void init() {
 		mCheckbox = new CheckBox(getContext());
 		mCheckbox.setId(10);
-		LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT,
+				LayoutParams.WRAP_CONTENT);
 		params.addRule(ALIGN_PARENT_RIGHT);
 		params.addRule(CENTER_VERTICAL);
 		mCheckbox.setChecked(false);
 		mCheckbox.setClickable(false);
 		mCheckbox.setFocusable(false);
 		mCheckbox.setLayoutParams(params);
-		
+
 		View item = inflate(getContext(), R.layout.item_filelist, null);
-		LayoutParams p = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+		LayoutParams p = new LayoutParams(LayoutParams.MATCH_PARENT,
+				LayoutParams.WRAP_CONTENT);
 		p.addRule(LEFT_OF, 10);
 		p.addRule(ALIGN_PARENT_LEFT);
 		item.setLayoutParams(p);
-		
+
 		addView(mCheckbox);
 		addView(item);
 	}
@@ -61,7 +67,5 @@ public class CheckableFileListItem extends RelativeLayout implements Checkable{
 	public void toggle() {
 		mCheckbox.toggle();
 	}
-	
-	
-	
+
 }

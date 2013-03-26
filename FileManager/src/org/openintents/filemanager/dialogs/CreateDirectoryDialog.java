@@ -18,24 +18,28 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class CreateDirectoryDialog extends DialogFragment implements Overwritable {
+public class CreateDirectoryDialog extends DialogFragment implements
+		Overwritable {
 	private File mIn;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		mIn = new File(getArguments().getString(FileManagerIntents.EXTRA_DIR_PATH));
+
+		mIn = new File(getArguments().getString(
+				FileManagerIntents.EXTRA_DIR_PATH));
 	}
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		LayoutInflater inflater = LayoutInflater.from(getActivity());
-		final EditText v = (EditText) inflater.inflate(
+		LinearLayout view = (LinearLayout) inflater.inflate(
 				R.layout.dialog_text_input, null);
+		final EditText v = (EditText) view.findViewById(R.id.foldername);
 		v.setHint(R.string.folder_name);
 
 		v.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -48,10 +52,11 @@ public class CreateDirectoryDialog extends DialogFragment implements Overwritabl
 		});
 
 		return new AlertDialog.Builder(getActivity())
-				.setInverseBackgroundForced(UIUtils.shouldDialogInverseBackground(getActivity()))
+				.setInverseBackgroundForced(
+						UIUtils.shouldDialogInverseBackground(getActivity()))
 				.setTitle(R.string.create_new_folder)
 				.setIcon(android.R.drawable.ic_dialog_alert)
-				.setView(v)
+				.setView(view)
 				.setPositiveButton(android.R.string.ok,
 						new DialogInterface.OnClickListener() {
 
@@ -75,20 +80,22 @@ public class CreateDirectoryDialog extends DialogFragment implements Overwritabl
 				dialog.show(getFragmentManager(), "OverwriteFileDialog");
 			} else {
 				if (tbcreated.mkdirs())
-					Toast.makeText(c, R.string.create_dir_success, Toast.LENGTH_SHORT).show();
+					Toast.makeText(c, R.string.create_dir_success,
+							Toast.LENGTH_SHORT).show();
 				else
-					Toast.makeText(c, R.string.create_dir_failure, Toast.LENGTH_SHORT).show();
+					Toast.makeText(c, R.string.create_dir_failure,
+							Toast.LENGTH_SHORT).show();
 
 				((FileListFragment) getTargetFragment()).refresh();
 				dismiss();
 			}
 		}
 	}
-	
+
 	private File tbcreated;
 	private CharSequence text;
 	private Context c;
-	
+
 	@Override
 	public void overwrite() {
 		tbcreated.delete();
